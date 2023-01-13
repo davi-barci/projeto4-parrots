@@ -12,11 +12,11 @@ while (qtdCartas < 4 || qtdCartas > 14 || qtdCartas % 2 !== 0){
 for (let i = 0; i < qtdCartas; i++){
     const elementoAtual = document.createElement("div");
     elementoAtual.classList.add("carta");
-    elementoAtual.setAttribute("id","teste " + i+1);
-    if(indice !== 0 && indice % 2 == 0){
+    if(i !== 0 && i % 2 == 0){
         indice++;
     }
-    elementoAtual.innerHTML = '<img src="imagens/cartas/back.png" alt="Card Parrot"/>'
+    elementoAtual.innerHTML += '<img class="activated" src="imagens/cartas/back.png" alt="Card Parrot"/>';
+    elementoAtual.innerHTML += '<img class="disabled" src="imagens/cartas/'+nomeImagens[indice]+'" alt="Card Parrot"/>';
     imagens.push(elementoAtual);
 }
 

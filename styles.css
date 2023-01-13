@@ -58,6 +58,14 @@ body {
     height: 100px;
 }
 
+.activated{
+    display: block;
+}
+
+.disabled{
+    display: none;
+}
+
 @media (max-width: 660px) {
     .titulo-jogo{
         margin-bottom: 80px;
