@@ -42,6 +42,14 @@ body {
 .carta{
     width: 117px;
     height: 146px;
+    margin-bottom: 15px;
+    margin-right: 15px;
+    position: relative;
+}
+
+.carta div{
+    width: 100%;
+    height: 100%;
     background-color: #A7E9AF;
     border: 1px solid #99CEA8;
     border-radius: 5px;
@@ -49,8 +57,22 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 15px;
-    margin-right: 15px;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: all .5s;
+    transform-style: preserve-3d;
+}
+
+.back-face {
+    transform: rotateY(180deg);
+}
+
+.flip-back-face {
+    transform: rotateY(0deg);
+}
+
+.flip-front-face {
+    transform: rotateY(-180deg);
 }
 
 .carta img{

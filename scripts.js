@@ -12,11 +12,14 @@ while (qtdCartas < 4 || qtdCartas > 14 || qtdCartas % 2 !== 0){
 for (let i = 0; i < qtdCartas; i++){
     const elementoAtual = document.createElement("div");
     elementoAtual.classList.add("carta");
+    elementoAtual.setAttribute("id", `carta-${i+1}`);
+    elementoAtual.addEventListener("click", virarCarta);
+    elementoAtual.myParam = `carta-${i+1}`;
     if(i !== 0 && i % 2 == 0){
         indice++;
     }
-    elementoAtual.innerHTML += '<img class="activated" src="imagens/cartas/back.png" alt="Card Parrot"/>';
-    elementoAtual.innerHTML += '<img class="disabled" src="imagens/cartas/'+nomeImagens[indice]+'" alt="Card Parrot"/>';
+    elementoAtual.innerHTML += '<div class="front-face"><img src="imagens/cartas/back.png" alt="Card Parrot"/></div>';
+    elementoAtual.innerHTML += '<div class="back-face"><img src="imagens/cartas/'+nomeImagens[indice]+'" alt="Card Parrot"/></div>';
     imagens.push(elementoAtual);
 }
 
@@ -31,7 +34,57 @@ function comparador() {
 	return Math.random() - 0.5; 
 }
 
+let primeiraCartaSelecionada = "";
+let cartasAcertadas = [];
+let podeSelecionarCarta = true;
 
+function virarCarta(idCartaAtual){
+    if (primeiraCartaSelecionada === ""){
+        const imagens = document.querySelectorAll(`#${idCartaAtual.currentTarget.myParam} div`);
+        imagens[0].classList.add("flip-front-face");
+        imagens[1].classList.add("flip-back-face");
+        primeiraCartaSelecionada = idCartaAtual.currentTarget.myParam;
+    }else if (idCartaAtual.currentTarget.myParam != primeiraCartaSelecionada && podeSelecionarCarta === true){
+        podeSelecionarCarta = false;
+        const imagens = document.querySelectorAll(`#${idCartaAtual.currentTarget.myParam} div`);
+        imagens[0].classList.add("flip-front-face");
+        imagens[1].classList.add("flip-back-face");
+        if (comparadorCartas(primeiraCartaSelecionada, idCartaAtual.currentTarget.myParam)){
+            cartasAcertadas.push(primeiraCartaSelecionada);
+            cartasAcertadas.push(idCartaAtual.currentTarget.myParam);
+            document.getElementById(primeiraCartaSelecionada).removeEventListener("click", virarCarta);
+            document.getElementById(idCartaAtual.currentTarget.myParam).removeEventListener("click", virarCarta);
+            setTimeout(podeSelecionar, 1500);
+        }else{
+            setTimeout(desvirarCartas, 1000, primeiraCartaSelecionada, imagens);
+            setTimeout(podeSelecionar, 1500);
+        }
+    }
+
+}
+
+function podeSelecionar(){
+    podeSelecionarCarta = true;
+    primeiraCartaSelecionada = "";
+}
+
+function desvirarCartas(primeiraCarta, segundaCarta){
+    segundaCarta[0].classList.remove("flip-front-face");
+    segundaCarta[1].classList.remove("flip-back-face");
+    const imagensPrimeiraCarta = document.querySelectorAll(`#${primeiraCarta} div`);
+    imagensPrimeiraCarta[0].classList.remove("flip-front-face");
+    imagensPrimeiraCarta[1].classList.remove("flip-back-face");
+}
+
+function comparadorCartas(primeiraCarta, segundaCarta){
+    const imagemPrimeiraCarta = document.querySelector(`#${primeiraCarta} .back-face img`);
+    const imagemSegundaCarta =  document.querySelector(`#${segundaCarta} .back-face img`);
+    if (imagemPrimeiraCarta.getAttribute('src') === imagemSegundaCarta.getAttribute('src')){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 
 
