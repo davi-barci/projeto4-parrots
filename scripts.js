@@ -37,6 +37,7 @@ function comparador() {
 let primeiraCartaSelecionada = "";
 let cartasAcertadas = [];
 let podeSelecionarCarta = true;
+let qtdJogadas = 0;
 
 function virarCarta(idCartaAtual){
     if (primeiraCartaSelecionada === ""){
@@ -44,7 +45,9 @@ function virarCarta(idCartaAtual){
         imagens[0].classList.add("flip-front-face");
         imagens[1].classList.add("flip-back-face");
         primeiraCartaSelecionada = idCartaAtual.currentTarget.myParam;
+        qtdJogadas++;
     }else if (idCartaAtual.currentTarget.myParam != primeiraCartaSelecionada && podeSelecionarCarta === true){
+        qtdJogadas++;
         podeSelecionarCarta = false;
         const imagens = document.querySelectorAll(`#${idCartaAtual.currentTarget.myParam} div`);
         imagens[0].classList.add("flip-front-face");
@@ -55,6 +58,11 @@ function virarCarta(idCartaAtual){
             document.getElementById(primeiraCartaSelecionada).removeEventListener("click", virarCarta);
             document.getElementById(idCartaAtual.currentTarget.myParam).removeEventListener("click", virarCarta);
             setTimeout(podeSelecionar, 1500);
+            setTimeout(function(){
+                if(cartasAcertadas.length === Number(qtdCartas)){
+                    alert(`Você ganhou em ${qtdJogadas} jogadas!`);
+                }
+            }, 500);
         }else{
             setTimeout(desvirarCartas, 1000, primeiraCartaSelecionada, imagens);
             setTimeout(podeSelecionar, 1500);
