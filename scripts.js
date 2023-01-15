@@ -9,6 +9,15 @@ while (qtdCartas < 4 || qtdCartas > 14 || qtdCartas % 2 !== 0){
     qtdCartas = prompt("Valor Inválido! Digite apenas valores pares entre 4-14!");
 }
 
+let cont = 0;
+const timerInterval = setInterval(incrementoTimer, 1000);
+
+function incrementoTimer(){
+    cont++;
+    const textoTimer = document.querySelector(".timer");
+    textoTimer.innerHTML = cont;
+}
+
 for (let i = 0; i < qtdCartas; i++){
     const elementoAtual = document.createElement("div");
     elementoAtual.classList.add("carta");
@@ -60,7 +69,8 @@ function virarCarta(idCartaAtual){
             setTimeout(podeSelecionar, 1500);
             setTimeout(function(){
                 if(cartasAcertadas.length === Number(qtdCartas)){
-                    alert(`Você ganhou em ${qtdJogadas} jogadas!`);
+                    clearInterval(timerInterval);
+                    alert(`Você ganhou em ${qtdJogadas} jogadas! A duração do jogo foi de ${cont} segundos!`);
                 }
             }, 500);
         }else{
