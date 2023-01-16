@@ -22,13 +22,14 @@ for (let i = 0; i < qtdCartas; i++){
     const elementoAtual = document.createElement("div");
     elementoAtual.classList.add("carta");
     elementoAtual.setAttribute("id", `carta-${i+1}`);
+    elementoAtual.setAttribute("data-test", "card")
     elementoAtual.addEventListener("click", virarCarta);
     elementoAtual.myParam = `carta-${i+1}`;
     if(i !== 0 && i % 2 == 0){
         indice++;
     }
-    elementoAtual.innerHTML += '<div class="front-face"><img src="imagens/cartas/back.png" alt="Card Parrot"/></div>';
-    elementoAtual.innerHTML += '<div class="back-face"><img src="imagens/cartas/'+nomeImagens[indice]+'" alt="Card Parrot"/></div>';
+    elementoAtual.innerHTML += '<div class="front-face"><img data-test="face-down-image" src="imagens/cartas/back.png" alt="Card Parrot"/></div>';
+    elementoAtual.innerHTML += '<div class="back-face"><img data-test="face-up-image" src="imagens/cartas/'+nomeImagens[indice]+'" alt="Card Parrot"/></div>';
     imagens.push(elementoAtual);
 }
 
@@ -71,6 +72,13 @@ function virarCarta(idCartaAtual){
                 if(cartasAcertadas.length === Number(qtdCartas)){
                     clearInterval(timerInterval);
                     alert(`Você ganhou em ${qtdJogadas} jogadas! A duração do jogo foi de ${cont} segundos!`);
+                    let reiniciarJogo = prompt("Você deseja reiniciar o jogo?");
+                    while (reiniciarJogo !== "sim" && reiniciarJogo !== "não"){
+                        reiniciarJogo = prompt("Opção inválida! Por favor, digite apenas sim ou não!");
+                    }
+                    if (reiniciarJogo === "sim"){
+                        document.location.reload();
+                    }
                 }
             }, 500);
         }else{
