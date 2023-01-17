@@ -115,3 +115,4 @@ function comparadorCartas(primeiraCarta, segundaCarta){
 
 
 
+
